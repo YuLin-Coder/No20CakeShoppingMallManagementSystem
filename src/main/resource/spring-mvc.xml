@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                        http://www.springframework.org/schema/beans/spring-beans.xsd  
+                        http://www.springframework.org/schema/context  
+                        http://www.springframework.org/schema/context/spring-context.xsd  
+                        http://www.springframework.org/schema/mvc  
+                        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+	<!-- 配置注解扫描范围 -->
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.controller" />
+
+
+	<!-- 配置多媒体文件解析器 用于文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为5MB -->
+		<property name="maxUploadSize" value="5242880" />
+		<property name="defaultEncoding" value="utf-8" />
+	</bean>
+
+
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor><!-- 配置登陆拦截器 -->
+			<mvc:mapping path="/admin/**"/>
+			<bean class="com.controller.AdminInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+
+	<!--静态资源不拦截 -->
+	<mvc:resources mapping="/picture/**" location="/picture/" />
+	<mvc:resources mapping="/index/css/**" location="/index/css/" />
+	<mvc:resources mapping="/index/fonts/**" location="/index/fonts/" />
+	<mvc:resources mapping="/index/images/**" location="/index/images/" />
+	<mvc:resources mapping="/index/js/**" location="/index/js/" />
+	<mvc:resources mapping="/index/layer/**" location="/index/layer/" />
+	<mvc:resources mapping="/admin/css/**" location="/admin/css/" />
+	<mvc:resources mapping="/admin/img/**" location="/admin/img/" />
+	<mvc:resources mapping="/admin/js/**" location="/admin/js/" />
+
+
+</beans>
